@@ -58,7 +58,7 @@
 		return $result;
 	}
 
-	function validateLogin($email, $password) {
+	function validateLogin($dbconn, $email, $password) {
 		$result = "";
 
 		$stmt = $dbconn->prepare("SELECT * FROM admin WHERE :e=email");
