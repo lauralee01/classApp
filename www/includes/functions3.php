@@ -1,102 +1,36 @@
 <?php
-	$page_title = "Register";
-	include('includes/header.php');
-	include('includes/db.php');
-	include('includes/functions3.php');
 
-	$errors = [];
+	function uploadFile($files, $name, $loc) {
+		$result = [];
 
+		$rnd = rand(0000000000, 9999999999);
+		$strip_name = str_replace(' ', '_', $files['$name']['name'] );
 
-		if(array_key_exists('register', $_POST)) {
-			
+		$fileName = $rnd.$strip_name;
+		$destination = $loc.$filename;
 
-			if(empty($_POST['fname'])) {
-				$errors['fname'] = "Please enter your firstname";
-			}
-			if(empty($_POST['lname'])) {
-				$errors['lname'] = "Please enter your lastname";
-			}
-			if(empty($_POST['email'])) {
-				$errors['email'] = "Please enter your email";
-			}
-			if(doesEmailExist($conn, $_POST['email'])) {
-				$errors['email'] = "Email already exists";
-			}
-			if(empty($_POST['password'])) {
-				$errors['password'] = "Please enter your password";
-			}
-			if(empty($_POST['pword'])) {
-				$errors['pword'] = "Please confirm your password";
-			}
-			if(empty($errors)) {
-				$clean = array_map('trim', $_POST);
-
-				doAdminRegister($conn, $clean);
-
-				/*$hash = password_hash($clean['password'], PASSWORD_BCRYPT);
-
-				$stmt = $conn->prepare("INSERT INTO admin(firstName, lastName, email, hash) VALUES(:f, :l, :e, :h)");
-
-				$data = [
-					":f" => $clean['fname'],
-					":l" => $clean['lname'],
-					":e" => $clean['email'],
-					":h" => $hash
-				];
-
-				$stmt->execute($data); */
-
-			}
-			
-			
+		if(move_uploaded_file($file[$name]['tmp_name'], $destination)) {
+			$result[] = true;
+		}else {
+			$result[] = false;
 		}
 
+		return $result;
+	}
+	function doAdminRegister($dbconn, $input) {
+		$hash = password_hash($input['password'], PASSWORD_BCRYPT);
 
+		$stmt = $dbconn->prepare("INSERT INTO admin(firstName, lastName, email, hash)
+			VALUES(:f, :l, :e, :h)");
 
+		$data = [
+			":f" => $input['fname'],
+			":l" => $input['lname'],
+			":e" => $input['email'],
+			":h" => $hash
+		];
+
+		$stmt->execute($data);
+	}
 
 ?>
-
-
-<div class="wrapper">
-		<h1 id="register-label">Register</h1>
-		<hr>
-		<form id="register"  action ="register.php" method ="POST">
-			<div>
-				<?php if(isset($errors['fname'])) {echo '<span class=err>'.$errors['fname']. '</span>';} ?>
-				<label>first name:</label>
-				<input type="text" name="fname" placeholder="first name">
-			</div>
-			<div>
-				<?php if(isset($errors['lname'])) {echo '<span class=err>'.$errors['lname'].'</span>';} ?>
-				<label>last name:</label>	
-				<input type="text" name="lname" placeholder="last name">
-			</div>
-
-			<div>
-				<?php if(isset($errors['email'])) {echo '<span class=err>'.$errors['email'].'</span>';} ?>
-				<label>email:</label>
-				<input type="text" name="email" placeholder="email">
-			</div>
-			<div>
-				<?php if(isset($errors['password'])) {echo '<span class=err>'.$errors['password'].'</span>';} ?>
-				<label>password:</label>
-				<input type="password" name="password" placeholder="password">
-			</div>
- 
-			<div>
-				<?php if(isset($errors['pword'])) {echo '<span class=err>'.$errors['pword']. '</span>';} ?>
-				<label>confirm password:</label>	
-				<input type="password" name="pword" placeholder="confirm password" >
-			</div>
-
-			<input type="submit" name="register" value="register">
-		</form>
-
-		<h4 class="jumpto">Have an account? <a href="login.php">login</a></h4>
-	</div>
-	<?php
-
-		include('includes/footer.php');
-
-
-	?>

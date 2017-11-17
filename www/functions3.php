@@ -48,6 +48,7 @@
 
 		return $result;
 	}
+	
 	function displayErrors($errors, $name) {
 		$result = "";
 
@@ -55,6 +56,28 @@
 			$result = '<span class=err>'.$errors[$name].'</span>';
 		}
 		return $result;
+	}
+
+	function validateLogin($email, $password) {
+		$result = "";
+
+		$stmt = $dbconn->prepare("SELECT * FROM admin WHERE :e=email");
+
+		$stmt->bindParam(":e", $email);
+
+		$stmt->execute();
+
+			while($fetch=$stmt->fetch(PDO::FETCH_ASSOC)) {
+				$hash = $fetch['hash'];
+				if(password_verify($password,$hash)) {
+					$result = true ;
+				} else {
+					$result = false;
+				}
+				return $result;
+			}
+
+
 	}
 
 ?>

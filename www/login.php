@@ -1,6 +1,26 @@
 <?php
 	$page_title = "Login";
 	include 'includes/header.php';
+	include 'includes/db.php';
+	include 'functions3.php';
+
+
+		$error = [];
+	if(array_key_exists('register', $_POST)) {
+		if(empty($_POST['email'])) {
+			$error['email'] = "Please enter your email address";
+		}
+		if(empty($_POST['password'])) {
+			$error['password'] = "Please enter your password";
+		}
+		if(empty($error)) {
+			if(validateLogin($conn, $_POST['email'], $_POST['password'])) {
+				echo "Login Successful";
+			} else {
+				echo "Invalid Username or Password";
+			}
+		}
+	}
 
 ?>
 <div class="wrapper">
