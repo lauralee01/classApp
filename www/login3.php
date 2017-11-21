@@ -1,10 +1,8 @@
 <?php
-	session_start();
-	
 	$page_title = "Login";
 	include 'includes/header.php';
 	include 'includes/db.php';
-	include 'functions3.php';
+	include 'check.php';
 
 
 		$error = [];
@@ -16,22 +14,13 @@
 			$error['password'] = "Please enter your password";
 		}
 		if(empty($error)) {
-			$clean = array_map('trim', $_POST);
-
-			$data = adminLogin($conn, $clean);
-
-			if($data[0]) {
-				$details = $data[1];
-
-				$_SESSION['aid'] = $details['admin_id'];
-				$_SESSION['name'] = $details['firstName'].' '.$details['lastName'];
-
-					//redirect("add_category.php?msg= ", "");
-					header("Location: add_category.php");
-				} else {
-				header('Location: login.php?msg="Invalid email or password"');			
+			if(validateLogin($conn, $_POST['email'], $_POST['password'])) {
+				echo "Login Successful";
+			} else {
+				echo "Invalid Username or Password";
 			}
-		}
+		
+		
 	}
 
 ?>

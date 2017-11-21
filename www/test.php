@@ -1,5 +1,10 @@
 <?php
 
+	session_start();
+
+	$adminName = $_SESSION['name'];
+
+	echo "Hello,.$adminName";
  	include ("functions3.php");
 	
 	define('MAX_FILE_SIZE', '2097152');

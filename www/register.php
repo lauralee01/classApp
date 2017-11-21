@@ -32,6 +32,7 @@
 				$clean = array_map('trim', $_POST);
 
 				doAdminRegister($conn, $clean);
+				echo "Registration Successful";
 
 				/*$hash = password_hash($clean['password'], PASSWORD_BCRYPT);
 
