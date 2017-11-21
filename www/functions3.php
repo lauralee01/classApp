@@ -90,7 +90,7 @@
 
 		$count = $stmt->rowCount();
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		
+
 		if($count != 1 || !password_verify($input['password'], $row['hash'])) {
 			$result[] = false;
 		} else {
@@ -115,5 +115,32 @@
 	}
 	function redirect($location, $msg) {
 		header("Location: ".$location.$msg);
+	}
+	function viewCategory($dbconn) {
+		$result = "";
+
+		$stmt = $dbconn->prepare("SELECT * FROM category");
+
+		$stmt->execute();
+
+		while($row = $stmt->fetch(PDO::FETCH_BOTH)) {
+			$result .= '<tr><td>'.$row[0].'</td>';
+			$result .= '<td>'.$row[1].'</td>';
+			$result .= '<td><a href="edit_category.php?cat_id='.$row[0].'">edit</a></td>';
+			$result .= '<td><a href="delete_category.php?cat_id='.$row[0].'">delete</a></td></tr>';
+		}
+		return $result;
+	}
+	function getCategoryById($dbconn, $id) {
+
+		$stmt = $dbconn->prepare("SELECT * FROM category WHERE category_id=:catId");
+
+		$stmt->bindParam(':catId', $id); 
+
+		$stmt->execute();
+
+		$row = $stmt->fetch(PDO::FETCH_BOTH);
+
+		return $row;
 	}
 ?>

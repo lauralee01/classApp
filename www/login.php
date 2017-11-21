@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	
+
 	$page_title = "Login";
 	include 'includes/header.php';
 	include 'includes/db.php';
@@ -26,7 +26,7 @@
 				$_SESSION['aid'] = $details['admin_id'];
 				$_SESSION['name'] = $details['firstName'].' '.$details['lastName'];
 
-					//redirect("add_category.php?msg= ", "");
+					redirect("add_category.php?msg= ", "");
 					header("Location: add_category.php");
 				} else {
 				header('Location: login.php?msg="Invalid email or password"');			

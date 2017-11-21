@@ -9,6 +9,8 @@
 
 	include 'functions3.php';
 
+	checkLogin();
+
 
 ?>
 <div class="wrapper">
@@ -24,7 +26,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					
+					<?php
+						$data = viewCategory($conn);
+
+						echo $data;
+
+					?>
 					
           		</tbody>
 			</table>
