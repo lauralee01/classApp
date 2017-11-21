@@ -3,9 +3,9 @@
 	session_start();
 
 	$page_title = "Admin Dashboard";
+	include 'functions3.php';
 	include 'includes/dashboard_header.php';
 	include 'includes/db.php';
-	include 'functions3.php';
 
 	checkLogin();
 
@@ -23,7 +23,12 @@
 			$errors['cat_name'] = "Please enter a category name";
 		}
 		if(empty($errors)) {
-			
+			$clean = array_map('trim', $_POST);
+			$clean['id'] = $cat_id;
+
+			updateCategory($conn, $clean);
+
+			redirect("view_category.php");
 		}
 	}
 
