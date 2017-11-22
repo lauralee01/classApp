@@ -161,16 +161,13 @@
 			echo 'class="selected"';
 		}
 	}
-	function deleteCategory($dbconn, $input) {
+	function deleteCategory($dbconn, $id) {
 
-		$stmt = $dbconn->prepare("DELETE FROM category WHERE category_id=:catId AND category_name=:catName");
+		$stmt = $dbconn->prepare("DELETE FROM category WHERE category_id=:catId");
 
-		$data = [
-			":catName" => $input['cat_name'],
-			":catId" => $input['id']
-		];
+		$stmt->bindParam(":catId", $id);
 
-		$stmt->execute($data);
+		$stmt->execute();
 	}
 	function numeric($input) {
 

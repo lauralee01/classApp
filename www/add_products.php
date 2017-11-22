@@ -54,10 +54,12 @@
 
 				$cat_id = $row[0];
 
-				
-				addProducts($conn, $POST, $cat_id);
+				//$clean = array_map('trim', $_POST);
 
-				redirect("add_category.php");
+				
+				addProducts($conn, $clean, $cat_id);
+
+				redirect("view_products.php");
 			}
 
 		}
