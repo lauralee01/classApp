@@ -161,4 +161,41 @@
 			echo 'class="selected"';
 		}
 	}
+	function deleteCategory($dbconn, $input) {
+
+		$stmt = $dbconn->prepare("DELETE FROM category WHERE category_id=:catId AND category_name=:catName");
+
+		$data = [
+			":catName" => $input['cat_name'],
+			":catId" => $input['id']
+		];
+
+		$stmt->execute($data);
+	}
+	function numeric($input) {
+
+		$result = false;
+
+		if(!is_numeric($input)) {
+
+			$result = true;
+		}
+		return $result;
+	}
+	function addProducts($dbconn, $input, $id) {
+
+		$stmt = $dbconn->prepare("INSERT INTO books(title, author, price, publication_date, quantity, category_id)VALUES(:t, :a, :p, :pD, :q, :cId)");
+
+		$data = [
+
+			":t" => $input['title'],
+			":a" => $input['author'],
+			":p" => $input['price'],
+			":pD" => $input['pub_date'],
+			":q" => $input['quantity'],
+			":cId" => $id
+
+		];
+		$stmt->execute($data);
+	}
 ?>
