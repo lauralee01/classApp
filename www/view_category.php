@@ -1,19 +1,16 @@
 <?php
-	session_start();
 
-	$page_title = "Admin Dashboard";
+    session_start();
 
-	include 'functions3.php';
+    $page_title = "View Category";
 
-	include 'includes/dashboard_header.php';
-
-	include 'includes/db.php';
-
-
-	checkLogin();
-
+    include("includes/db.php");
+    include("includes/functions.php");
+    include("includes/dashboard_header.php");
 
 ?>
+
+
 <div class="wrapper">
 		<div id="stream">
 			<table id="tab">
@@ -23,17 +20,13 @@
 						<th>category name</th>
 						<th>edit</th>
 						<th>delete</th>
-						
 					</tr>
 				</thead>
 				<tbody>
-					<?php
-						$data = viewCategory($conn);
-
-						echo $data;
-
-					?>
-					
+                    <?php
+                        $data = viewCategory($conn);
+                        echo $data;
+                    ?>
           		</tbody>
 			</table>
 		</div>
@@ -44,8 +37,6 @@
 			<span>3</span>
 			<a href="#">2</a>
 		</div>
-	</div>
-	<?php
-
-	include 'includes/footer.php';
-?>
+    </div>
+    
+    <?php include("includes/footer.php"); ?>
