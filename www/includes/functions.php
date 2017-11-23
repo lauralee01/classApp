@@ -269,6 +269,44 @@
         }
         return $result;
     }
+    function getBookById($dbconn, $id) {
+
+        $stmt = $dbconn->prepare("SELECT * FROM books WHERE book_id=:bokId");
+
+        $stmt->bindParam(":bokId", $id);
+
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_BOTH);
+
+        return $row;
+
+
+     }
+ function updateBook($dbconn, $input) {
+
+    $stmt = $dbconn->prepare("UPDATE books SET title=:tit, author=:aut, price=:pr, publication_date=:pd WHERE book_id=:bokId");
+
+    $data = [
+
+        ":tit" => $input['title'],
+        ":aut" => $input['author'],
+        ":pr" => $input['price'],
+        ":pd" => $input['year'],
+        ":bokId" => $input['id']
+
+        ];
+    $stmt->execute($data);
+ }
+ function deleteProducts($dbconn, $id) {
+
+    $stmt = $dbconn->prepare("DELETE FROM books WHERE book_id=:bokId");
+
+    $stmt->bindParam(":bokId", $id);
+
+    $stmt->execute();
+
+ }
 
  
 
