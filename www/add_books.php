@@ -121,7 +121,7 @@
 				<input type="text" name="quantity" placeholder="quantity">
             </div>
 			<div>
-				<label>Category: </label><select name="cat_name">
+				<label>Category:</label><select name="cat_name">
 								<option value="">Select Category</option>
 								<?php while($row = $stmt->fetch(PDO::FETCH_BOTH)) { ?>
 								<option value="<?php echo $row['category_id']; ?>"><?php echo $row['category_name']; ?></option>
